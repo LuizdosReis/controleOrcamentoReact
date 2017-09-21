@@ -1,44 +1,23 @@
 import React, { Component } from 'react';
-import $ from 'jquery';
-import PubSub from 'pubsub-js';
-
 
 import InputCustomizado from '.././component/InputCustomizado';
 import ButtonCustomizado from '.././component/ButtonCustomizado';
 import TratadorErros from '.././tratadorErros';
+import CategoriaController from './../controller/CategoriaController';
 
 export default class Formulario extends Component{
 
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {descricao:''};
         this.enviaForm = this.enviaForm.bind(this);
+        this.categoriaController = this.props.controller;
     }
 
     enviaForm(evento){
         evento.preventDefault();
-        $.ajax({
-            url:"http://localhost:8080/v1/categorias/protected",
-            contentType:'application/json',
-            dataType:'json',
-            type: 'post',
-            data: JSON.stringify({descricao:this.state.descricao}),
-            headers: {
-                'Authorization': ' Basic ' + btoa('luiz.reis:123')
-            },
-            success:function(categoria){
-                PubSub.publish('atualiza-lista-categoria',categoria);
-                this.setState({descricao:''});
-            }.bind(this),
-            error: function(resposta){
-                if(resposta.status === 400){
-                   new TratadorErros().publicaErros(resposta.responseJSON);
-                }
-            },
-            beforeSend: function(){
-                PubSub.publish("limpa-erros",{});
-            }
-        });
+        this.categoriaController.saveCategoria(this.state.descricao);
+        this.setState({descricao:''});
     }
 
 

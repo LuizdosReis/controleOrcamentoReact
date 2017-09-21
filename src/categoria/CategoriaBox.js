@@ -3,41 +3,22 @@ import PubSub from 'pubsub-js';
 
 import Formulario from './Formulario';
 import Tabela from './Tabela';
+import CategoriaController from './../controller/CategoriaController';
 
 export default class CategoriaBox extends Component{
     
     constructor(){
         super();
         this.state = {lista:[],mensagem:''};
+        this.categoriaController = new CategoriaController(this.state.lista);
     }
     
     componentDidMount(){
-        const requestInfo = {
-            method:'GET',
-            headers: new Headers({
-                'Content-type':'application/json',
-                'Authorization': localStorage.getItem('Authorization')
-            })
-        }
 
-        fetch("http://localhost:8080/v1/categorias/protected",requestInfo)
-        .then(response =>  {
-            if(response.ok){
-                return response.json();
-            }else{
-                throw new Error('Não foi possivel carregar as categorias');
-            }
-        })
-        .then(retorno =>{
-            this.setState({lista:retorno.content});
-        })
-        .catch(error => {
-            console.log(error);
-        })
-    
-        PubSub.subscribe('atualiza-lista-categoria', (topico,despesa) => {
-            this.state.lista.push(despesa);
-            this.setState({lista:this.state.lista});
+        this.categoriaController.getCategorias();
+
+        PubSub.subscribe('atualiza-lista-categoria', (topico,categoria) => {
+            this.setState({lista:categoria});
         });
     }
 
@@ -46,7 +27,7 @@ export default class CategoriaBox extends Component{
             <div>
                 <h1>Categoria</h1>
                 <p>{this.state.mensagem}</p>
-                <Formulario></Formulario>
+                <Formulario controller={this.categoriaController}></Formulario>
                 <Tabela lista={this.state.lista}></Tabela>
             </div>
         );
