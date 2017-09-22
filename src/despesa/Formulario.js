@@ -51,6 +51,7 @@ export default class Formulario extends Component{
 
         this.setState(prev => {
             let {categorias = []} = prev.categorias;
+            console.log(categorias);
             let newCategoria = {
                 id : categoriaId,
                 valor : valor

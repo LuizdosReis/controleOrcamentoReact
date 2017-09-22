@@ -15,9 +15,9 @@ export default class CategoriaBox extends Component{
     
     componentDidMount(){
 
-        this.categoriaController.getCategorias();
+        this.categoriaController.getAll();
 
-        PubSub.subscribe('atualiza-lista-categoria', (topico,categoria) => {
+        PubSub.subscribe('atualiza-lista-categorias', (topico,categoria) => {
             this.setState({lista:categoria});
         });
     }

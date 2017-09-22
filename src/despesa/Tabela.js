@@ -25,16 +25,16 @@ export default class Tabela extends Component{
                                         <td>{despesa.valor}</td>
                                         <td>
                                             {
-                                                despesa.gastosCategorizados.map(function(gastoCategorizado){
+                                                despesa.despesasCategorizadas.map(function(despesaCategorizada){
                                                     return(
-                                                        <table key={gastoCategorizado.id}>
+                                                        <table key={despesaCategorizada.id}>
                                                             <tbody>
                                                                 <tr>
                                                                     <td>
-                                                                        {gastoCategorizado.categoria.descricao}
+                                                                        {despesaCategorizada.categoria.descricao}
                                                                     </td>
                                                                     <td>
-                                                                        {gastoCategorizado.valor}
+                                                                        {despesaCategorizada.valor}
                                                                     </td>
                                                                 </tr>
                                                             </tbody>

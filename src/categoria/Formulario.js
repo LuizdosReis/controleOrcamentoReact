@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import InputCustomizado from '.././component/InputCustomizado';
 import ButtonCustomizado from '.././component/ButtonCustomizado';
 import TratadorErros from '.././tratadorErros';
-import CategoriaController from './../controller/CategoriaController';
+import categoriaController from './../controller/CategoriaController';
 
 export default class Formulario extends Component{
 
@@ -16,7 +16,7 @@ export default class Formulario extends Component{
 
     enviaForm(evento){
         evento.preventDefault();
-        this.categoriaController.saveCategoria(this.state.descricao);
+        this.categoriaController.save(this.state.descricao);
         this.setState({descricao:''});
     }
 
